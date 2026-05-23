@@ -1,8 +1,9 @@
+using DG.Tweening;
+using Ebac.Core.Singleton;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Ebac.Core.Singleton;
 using TMPro;
+using UnityEngine;
 
 public class PlayerController : Singleton<PlayerController>
 {
@@ -16,6 +17,18 @@ public class PlayerController : Singleton<PlayerController>
     public string tagToCheckEndLine = "EndLine";
 
     public GameObject EndScreen;
+
+    [Header("Coin Setup")] 
+    public GameObject coinCollector;
+    public void ChangeCoinCollectorSize(float amount)
+    {
+        coinCollector.transform.localScale = Vector3.one * amount;
+    }
+
+    [Header("TextMeshPro")]
+    public TextMeshPro uiTextPowerUp;
+
+    public bool invencible = false;
 
     private bool _canRun;
     private Vector3 _pos;
@@ -44,7 +57,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         if(collision.transform.tag == tagToCheckEnemy)
         {
-            EndGame();
+            if(!invencible) EndGame();
         }
     }
 
@@ -52,7 +65,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         if(other.transform.tag == tagToCheckEndLine)
         {
-            EndGame();
+            if (!invencible) EndGame();
         }
     }
 
@@ -69,7 +82,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public void SetPowerUpText(string s)
     { 
-        //uiTextPowerUp.text = s; 
+        uiTextPowerUp.text = s; 
     }
     public void PowerUpSpeedUp(float f)
     { 
@@ -78,6 +91,29 @@ public class PlayerController : Singleton<PlayerController>
     public void ResetSpeed()
     { 
         _currentSpeed = speed; 
+    }
+
+    public void SetInvencible(bool b = true)
+    {
+        invencible = b;
+    }
+
+    public void ChangeHeight(float amount, float duration, float animationDuration, Ease ease)
+    {
+        //var p = transform.position; 
+        //p.y = _startPosition.y + amount; 
+        //transform.position = p;
+
+        transform.DOMoveY(_startPosition.y + amount, animationDuration).SetEase(ease);//.OnComplete(ResetHeight);a
+        Invoke(nameof(ResetHeight), duration);
+
+    }
+
+    public void ResetHeight(float animationDuration) 
+    {
+        //var p = transform.position; p.y = _startPosition.y; 
+        //transform.position = p; 
+        transform.DOMoveY(_startPosition.y, animationDuration);
     }
 
 }
