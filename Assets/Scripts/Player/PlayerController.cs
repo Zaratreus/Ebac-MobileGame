@@ -1,9 +1,11 @@
 using DG.Tweening;
 using Ebac.Core.Singleton;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static AnimatorManager;
 
 public class PlayerController : Singleton<PlayerController>
 {
@@ -17,6 +19,9 @@ public class PlayerController : Singleton<PlayerController>
     public string tagToCheckEndLine = "EndLine";
 
     public GameObject EndScreen;
+
+    [Header("Animation")]
+    public AnimatorManager animatorManager;
 
     [Header("Coin Setup")] 
     public GameObject coinCollector;
@@ -57,7 +62,11 @@ public class PlayerController : Singleton<PlayerController>
     {
         if(collision.transform.tag == tagToCheckEnemy)
         {
-            if(!invencible) EndGame();
+            if (!invencible)
+            {
+                MoveBack();
+                EndGame(AnimatorManager.AnimationType.Dead);
+            }
         }
     }
 
@@ -69,15 +78,22 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
-    private void EndGame()
+    private void MoveBack()
+    {
+        transform.DOMoveZ(-1f, -3f).SetRelative();
+    }
+
+    private void EndGame(AnimatorManager.AnimationType animationType = AnimatorManager.AnimationType.Idle)
     {
         _canRun = false;
         EndScreen.SetActive(true);
+        animatorManager.Play(animationType);
     }
 
     public void startToRun()
     {
         _canRun = true;
+        animatorManager.Play(AnimatorManager.AnimationType.Run);
     }
 
     public void SetPowerUpText(string s)
