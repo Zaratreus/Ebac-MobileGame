@@ -1267,7 +1267,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3f6baa1fb370545ba95e7744b78e3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  artSetups: []
+  artSetups:
+  - artType: 0
+    gameObject: {fileID: 7440717803252150545, guid: abe6250ebd44d024782b7fab7d5d943c, type: 3}
+  - artType: 0
+    gameObject: {fileID: 6539213247566827192, guid: d5103d68a918f20468544ae6752b6e52, type: 3}
 --- !u!4 &1457655678
 Transform:
   m_ObjectHideFlags: 0
@@ -2081,7 +2085,7 @@ MonoBehaviour:
   - {fileID: 1207404611}
   - {fileID: 3587069055595007840}
   - {fileID: 7562642954366909041, guid: 4aab465ab647d9442a300fe78cbaefea, type: 3}
-  artType: 0
+  artType: 1
   levelPiecesStart:
   - {fileID: 2365695990234261481, guid: 80a67bcf52b804943a4cc5d05d09a22c, type: 3}
   levelPieces:
